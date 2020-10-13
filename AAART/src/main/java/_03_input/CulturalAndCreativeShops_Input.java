@@ -16,6 +16,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -46,7 +47,28 @@ public class CulturalAndCreativeShops_Input {
 		}
 		return dataSource;
 	}
+	
+	public void createTableForDB(){
+		try (Connection connection = getDataSource().getConnection();) {
+			Statement stmt = connection.createStatement();
+		     
+		    String sql = "CREATE TABLE CS_CULTURE_AND_CREATIVE_SHOPS_TABLE ( GROUP_TYPE_NAME VARCHAR2(1000 BYTE), "
+		    		+ "MAIN_TYPE_NAME VARCHAR2(1000 BYTE), NAME VARCHAR2(1000 BYTE), "
+		    		+ "REPRESENT_IMAGE VARCHAR2(2000 BYTE), INTRO VARCHAR2(4000 BYTE), "
+		    		+ "CITY_NAME VARCHAR2(4000 BYTE), ADDRESS VARCHAR2(2000 BYTE), LONGITUDE NUMBER(25,20), "
+		    		+ "LATITUDE NUMBER(25,20), OPEN_TIME VARCHAR2(1000 BYTE), PHONE VARCHAR2(1000 BYTE), "
+		    		+ "FAX VARCHAR2(1000 BYTE), EMAIL VARCHAR2(1000 BYTE), FACEBOOK VARCHAR2(1000 BYTE), "
+		    		+ "WEBSITE VARCHAR2(1000 BYTE), MAIN_TYPE_PK NUMBER(8,0), CLICKS NUMBER(8,0) )";
+		    
+		    stmt.executeUpdate(sql);
+		    System.out.println("商店表格已建立");
 
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	
 	public ArrayList<CultureAndCreativeShopsTable> readJsonToTable() {
 
 		ArrayList<CultureAndCreativeShopsTable> list = new ArrayList<CultureAndCreativeShopsTable>();
